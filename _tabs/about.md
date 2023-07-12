@@ -14,13 +14,16 @@ order: 4
 
 
 
-
 <script src="https://giscus.app/client.js"
         data-repo="micihelle/micihelle.github.io"
         data-repo-id="R_kgDOJ5xOUw"
         data-category="BlogComments"
         data-category-id="DIC_kwDOJ5xOU84CX1sA"
+        data-strict="0"
         data-reactions-enabled="1"
+        data-emit-metadata="0"
         data-input-position="top"
+        data-lang="en"
+        crossorigin="anonymous"
         async>
 </script>
