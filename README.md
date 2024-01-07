@@ -15,3 +15,4 @@
 ## 文章
 - [开始的季节]():blog搭建的契机
 - [“沉默”的冰山]():
+- The rhythm of life: the information flow of the 《positive psychology 1504》
