@@ -7,6 +7,7 @@
 ## 组织架构
 - Home
 - Blog
-- Information Flow
+- Information Flow：学习材料、学习笔记整理
 - Links
 - Abouts
+- cv
