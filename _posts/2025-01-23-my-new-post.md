@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Hello！
+title: Hello，World！
 date: 2025-01-23 23:09 +0800
 ---
 
@@ -34,3 +34,19 @@ bundle exec jekyll s
 bundle exec jekyll page "My New Page"
 bundle exec jekyll post "My New Post"
 ```
+
+<script src="https://giscus.app/client.js"
+        data-repo="micihelle/Micihelle.github.io"
+        data-repo-id="R_kgDONufzcA"
+        data-category="[在此输入分类名]"
+        data-category-id="[在此输入分类 ID]"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
