@@ -43,12 +43,12 @@ TTL串口：
 
 常见的串行通信接口：
 
-![image.png](./img/2025-04-20/image%201.png)
+![image.png](assets/img/2025-04-20/image%201.png)
 
 - 这里I2C和SPI都有单独的时钟线，所以他们是同步的，接收方可以在时钟信号的指引下进行采样
 - GND的作用就是参考系的作用，引脚的高低电平都是相对于GND的电压差
 
-![image.png](./img/2025-04-20/image%202.png)
+![image.png](assets/img/2025-04-20/image%202.png)
 
 STM32串口通信接口：
 
@@ -61,17 +61,17 @@ UART异步通信引脚连接：
 - 接收端RX（receive）
 - GND的作用：共地，意味着选择参考系，去相对值高低电平，确保两设备正常通信
 
-![image.png](./img/2025-04-20/image%203.png)
+![image.png](assets/img/2025-04-20/image%203.png)
 
-![image.png](./img/2025-04-20/image%204.png)
+![image.png](assets/img/2025-04-20/image%204.png)
 
-![image.png](./img/2025-04-20/image%205.png)
+![image.png](assets/img/2025-04-20/image%205.png)
 
-![image.png](./img/2025-04-20/image%206.png)
+![image.png](assets/img/2025-04-20/image%206.png)
 
 查阅串口1的发送引脚：→ STM32官方提供的芯片手册，直接去翻相关的硬件结构图也能找到
 
-![image.png](./img/2025-04-20/image%207.png)
+![image.png](assets/img/2025-04-20/image%207.png)
 
 电平标准：
 
@@ -89,11 +89,11 @@ UART异步通信引脚连接：
 
 STM32串口异步通信标准例程：
 
-![image.png](./img/2025-04-20/image%208.png)
+![image.png](assets/img/2025-04-20/image%208.png)
 
 位8采用奇偶校验码(Parity Check)进行校验：(只能检测出奇数个错误，见图中案例，低8位用作数据位，校验位置最高位）
 
-![image.png](./img/2025-04-20/image%209.png)
+![image.png](assets/img/2025-04-20/image%209.png)
 
 串口通信寄存器库函数相关配置：
 
@@ -101,19 +101,19 @@ cudeide配置：(STM32F103RC、DEBUG::JTAG 5pins)
 
 USART(Universal Synchronous / Asynchronous Receiver & Transmitter) （TTL串口使用的是异步通信） 
 
-![image.png](./img/2025-04-20/image%2010.png)
+![image.png](assets/img/2025-04-20/image%2010.png)
 
-![image.png](./img/2025-04-20/image%2011.png)
+![image.png](assets/img/2025-04-20/image%2011.png)
 
 将USART2 转化为TTL串口模式
 
-![image.png](./img/2025-04-20/image%2012.png)
+![image.png](assets/img/2025-04-20/image%2012.png)
 
 出现了波特率参数：（反映每秒传送的码元数量，即每秒多少次高低电平信号
 
 默认情况下，TTL串口每传送一个字节(1 byte = 8bit)，还需要添加一位起始位和一位停止位，这意味着每传送1字节信息需要10bit。（这里的parity表示校验位，Stop BITS表示停止位）
 
-![image.png](./img/2025-04-20/image%2013.png)
+![image.png](assets/img/2025-04-20/image%2013.png)
 
 通信两设备需要保持相同的波特率才能进行正常通信
 
@@ -133,7 +133,7 @@ USART(Universal Synchronous / Asynchronous Receiver & Transmitter) （TTL串口�
 
 从软件的角度理解USART框图 ：
 
-![image.png](./img/2025-04-20/image%2014.png)
+![image.png](assets/img/2025-04-20/image%2014.png)
 
 发送移位寄存器里面的数据会向右移位从TX引脚发送（串口数据中的低位先行特性）；移位过程中TDR会进行等待
 
@@ -154,11 +154,11 @@ USART(Universal Synchronous / Asynchronous Receiver & Transmitter) （TTL串口�
 - 控制发生器时钟；控制接收器时钟
 - USART外设作用：能够根据STM32字节数据翻转高低电平
 
-![image.png](./img/2025-04-20/image%2015.png)
+![image.png](assets/img/2025-04-20/image%2015.png)
 
 GPIO口复用输出（这些都涉及标志位的设计，可以考虑重写中断函数进入中断来实现快速读取和保存数据的效果）
 
-![image.png](./img/2025-04-20/image%2016.png)
+![image.png](assets/img/2025-04-20/image%2016.png)
 
 思考-信号到底是怎么控制波形输出的？
 
@@ -199,7 +199,7 @@ void USART_SendData(USART_TypeDef* USARTx, uint16_t Data)
 
 多次按下reset后的接收效果
 
-![image.png](./img/2025-04-20/image%2017.png)
+![image.png](assets/img/2025-04-20/image%2017.png)
 
 **问题：示波器抓取串口发送接收信号的波形**
 
@@ -218,17 +218,17 @@ void Serial_SendNumber(uint32_t Number,uint8_t Length)
 
 ```
 
-![image.png](./img/2025-04-20/image%2018.png)
+![image.png](assets/img/2025-04-20/image%2018.png)
 
 解决思路：进入仿真模式设置断点进行调试可发现，由于对局部变量i采用了无符号类型进行定义(≥0)，所以一直无法退出循环，进行123450000….012345000…的循环发送，
 
 - 直接改用int型或其他有符号数据类型
 
-![image.png](./img/2025-04-20/image%2019.png)
+![image.png](assets/img/2025-04-20/image%2019.png)
 
-![image.png](./img/2025-04-20/image%2020.png)
+![image.png](assets/img/2025-04-20/image%2020.png)
 
-![image.png](./img/2025-04-20/image%2021.png)
+![image.png](assets/img/2025-04-20/image%2021.png)
 
 printf可变参数封装代码改进建议？
 
@@ -238,14 +238,14 @@ printf可变参数封装代码改进建议？
 
 文档里面的USART中断请求居然没有列出RXNE事件标志的使能位，但是却存在于中断映像图中
 
-![image.png](./img/2025-04-20/image%2022.png)
+![image.png](assets/img/2025-04-20/image%2022.png)
 
 - USART与其他外设的协同工作：这句话是什么意思？ → 后面学过DMA之后回来复习的时候整理
 
 > 仅当使用DMA接收数据时，才使用这个标志位。
 > 
 
-![image.png](./img/2025-04-20/image%2023.png)
+![image.png](assets/img/2025-04-20/image%2023.png)
 
 思考：在STM32系统中是否会出现中断函数混用的现象？比如原本应用于USART1接收数据的中断服务函数被用于USART2接收数据，这是否有人为方面重写出更严谨的中断控制函数和控制服务函数的需求？
 
@@ -306,7 +306,7 @@ void USART1_IRQHandler(void)
 
 数据包格式规定及数据包收发：可以利用数据包的最高位进行分割；不过本小节的实验考虑额外添加包头包尾来以易于管理
 
-![image.png](./img/2025-04-20/image%2024.png)
+![image.png](assets/img/2025-04-20/image%2024.png)
 
 串口收发HEX数据包测试案例思考：
 
@@ -314,7 +314,7 @@ void USART1_IRQHandler(void)
 
 **启示-后续要求：利用状态机模型，画出G45-G55项目的完整状态迁移图**
 
-![image.png](./img/2025-04-20/image%2025.png)
+![image.png](assets/img/2025-04-20/image%2025.png)
 
 ## 0x05 串口收发HEX数据包&串口收发文本数据包
 
@@ -360,7 +360,7 @@ if(USART_GetFlagStatus(USART1,USART_IT_RXNE) == SET)
 
 2.配置BOOT引脚，让STM32执行BootLoade程序
 
-![image.png](./img/2025-04-20/image%2026.png)
+![image.png](assets/img/2025-04-20/image%2026.png)
 
 - 配置BOOT引脚：跳线帽切换BOOT引脚配置，然后reset重新让STM32重新读取BOOT引脚。进入BOOTLOADER程序以后，STM32会不断接收USART1的数据，刷新到主闪存
 
@@ -368,15 +368,15 @@ if(USART_GetFlagStatus(USART1,USART_IT_RXNE) == SET)
 
 程序通过Bootloader成功刷新到主闪存，目前由于STM32仍在执行bootloader程序，所以无法观察到LED闪烁现象；需要再次进行boot引脚的修改（跳线帽切换）然后reset，可观察到LED闪烁现象
 
-![image.png](./img/2025-04-20/image%2027.png)
+![image.png](assets/img/2025-04-20/image%2027.png)
 
 串口下载原理：（手机刷机，电脑重装系统，辅助主程序进行自我更新）
 
-![image.png](./img/2025-04-20/image%2028.png)
+![image.png](assets/img/2025-04-20/image%2028.png)
 
 BOOT引脚配置与启动模式（windows-bios）
 
-![image.png](./img/2025-04-20/image%2029.png)
+![image.png](assets/img/2025-04-20/image%2029.png)
 
 手动切换跳线帽过于麻烦了，如何提升效率？：
 
