@@ -34,7 +34,8 @@ TTL串口：
 
 ![image.png](/assets/img/2025-04-20/image.png)
 
-![图片]({{ "/assets/img/2025-04-20/image.png" | relative_url }})
+<!--![图片]({{ "/assets/img/2025-04-20/image.png" | relative_url }}) !-->
+
 
 串行通信的通信方式：
 
