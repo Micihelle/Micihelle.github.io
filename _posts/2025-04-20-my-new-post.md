@@ -32,7 +32,7 @@ TTL串口：
 - 半双工（某一个时刻只允许从一个方向传递到另外一个方向）
 - 全双工   （这里定义方式都跟管道差不多）：发送线路和接受线路不会互相影响
 
-![image.png](//assets/img/2025-04-20/image.png)
+![image.png](/assets/img/2025-04-20/image.png)
 
 ![图片]({{ "/assets/img/2025-04-20/image.png" | relative_url }})
 
