@@ -1,47 +1,76 @@
-# Chirpy Starter
+# 🌱 Micihelle's Tech Blog
 
-[![Gem Version](https://img.shields.io/gem/v/jekyll-theme-chirpy)][gem]&nbsp;
-[![GitHub license](https://img.shields.io/github/license/cotes2020/chirpy-starter.svg?color=blue)][mit]
+> 记录我的学习过程：从嵌入式开发走向计算机系统与算法
 
-When installing the [**Chirpy**][chirpy] theme through [RubyGems.org][gem], Jekyll can only read files in the folders
-`_data`, `_layouts`, `_includes`, `_sass` and `assets`, as well as a small part of options of the `_config.yml` file
-from the theme's gem. If you have ever installed this theme gem, you can use the command
-`bundle info --path jekyll-theme-chirpy` to locate these files.
 
-The Jekyll team claims that this is to leave the ball in the user’s court, but this also results in users not being
-able to enjoy the out-of-the-box experience when using feature-rich themes.
+---
+## 📖 About
+这个博客主要用于记录我的学习与思考，当前关注方向包括：
 
-To fully use all the features of **Chirpy**, you need to copy the other critical files from the theme's gem to your
-Jekyll site. The following is a list of targets:
+- 操作系统工程（xv6 / 系统调用 / 进程机制）
+- 嵌入式软件开发（MCU / 电机控制 / BLDC / FOC）
+- Linux / 工具链（Bash / Git / 编译环境）
+- 计算机基础（数据结构 / 算法 /）
+- LLM
 
-```shell
-.
-├── _config.yml
-├── _plugins
-├── _tabs
-└── index.html
+同时也会记录一些：
+- 调试经验
+- 工程问题复盘
+- 学习路径反思
+
+---
+
+
+## 🧭 Blog Structure
+
+- `/_posts`：技术文章
+- `/_tabs`：导航页面（分类 / 标签 / 关于）
+- `/assets`：图片与资源文件
+
+---
+
+## 🚀 Getting Started (Local)
+
+```bash
+bundle install
+bundle exec jekyll serve
 ```
 
-To save you time, and also in case you lose some files while copying, we extract those files/configurations of the
-latest version of the **Chirpy** theme and the [CD][CD] workflow to here, so that you can start writing in minutes.
+http://localhost:4000
 
-## Usage
+---
 
-Check out the [theme's docs](https://github.com/cotes2020/jekyll-theme-chirpy/wiki).
+## 🛠 Tech Stack
 
-## Contributing
+- Jekyll
+- GitHub Pages
+- Markdown
 
-This repository is automatically updated with new releases from the theme repository. If you encounter any issues or want to contribute to its improvement, please visit the [theme repository][chirpy] to provide feedback.
+博客主题基于：
 
-## [jekyll-compose](https://github.com/jekyll/jekyll-compose)
-Create your new post using:
+👉 [Chirpy Theme][chirpy]
+
+---
+
+
+## ✍️ Writing Posts
+Create new post using:
 ```
     $ bundle exec jekyll post "My New Post"
     # or specify a custom format for the date attribute in the yaml front matter
     $ bundle exec jekyll post "My New Post" --timestamp-format "%Y-%m-%d %H:%M:%S %z"
 ```
 
-## License
+
+## 📚 References
+
+- [Chirpy Documentation](https://github.com/cotes2020/jekyll-theme-chirpy/wiki)
+- [RubyGems - jekyll-theme-chirpy][gem]
+
+---
+
+
+## 📄 License
 
 This work is published under [MIT][mit] License.
 
@@ -49,3 +78,9 @@ This work is published under [MIT][mit] License.
 [chirpy]: https://github.com/cotes2020/jekyll-theme-chirpy/
 [CD]: https://en.wikipedia.org/wiki/Continuous_deployment
 [mit]: https://github.com/cotes2020/chirpy-starter/blob/master/LICENSE
+
+
+
+
+
+
