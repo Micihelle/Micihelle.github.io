@@ -33,6 +33,14 @@ Check out the [theme's docs](https://github.com/cotes2020/jekyll-theme-chirpy/wi
 
 This repository is automatically updated with new releases from the theme repository. If you encounter any issues or want to contribute to its improvement, please visit the [theme repository][chirpy] to provide feedback.
 
+## [jekyll-compose](https://github.com/jekyll/jekyll-compose)
+Create your new post using:
+```
+    $ bundle exec jekyll post "My New Post"
+    # or specify a custom format for the date attribute in the yaml front matter
+    $ bundle exec jekyll post "My New Post" --timestamp-format "%Y-%m-%d %H:%M:%S %z"
+```
+
 ## License
 
 This work is published under [MIT][mit] License.
