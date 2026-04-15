@@ -23,7 +23,7 @@ description: 电机控制故障检测与保护策略调试实录
 3.本工程文件后续使用记得实测一下：motor_drv->stFault.WindBlockProtect.u32wind_block_rise_time 没有做初始化是不是为0？
 4.CNT记录时间如何保证？ -> a.来源于1ms定时中断任务实现.  b.怎么保证1ms足够跑完这些软件指令？：在程序入口和出口出设置IO翻转，挂示波器探头实测执行时间。
 
-``` C
+```C
 /************************************************************************
  * Function   	: mcFault_WindBlock
  * Description	: mcFault_WindBlock
