@@ -18,12 +18,19 @@ description: 电机控制故障检测与保护策略调试实录
 
 ## 0x01 吸尘器应用场景堵孔保护功能
 关于本段代码的一些作用和问题：
-1.功率环模式，同样的板子运行在不同的工作电压范围，针对性地调整堵孔转速判定条件。
-2.堵孔状态判定条件、堵孔状态升功率持续时间
-3.本工程文件后续使用记得实测一下：motor_drv->stFault.WindBlockProtect.u32wind_block_rise_time 没有做初始化是不是为0？
-4.CNT记录时间如何保证？ -> a.来源于1ms定时中断任务实现.  b.怎么保证1ms足够跑完这些软件指令？：在程序入口和出口出设置IO翻转，挂示波器探头实测执行时间。
+- 1.功率环模式，同样的板子运行在不同的工作电压范围，针对性地调整堵孔转速判定条件。
+- 2.堵孔状态判定条件、堵孔状态升功率持续时间
+- 3.本工程文件后续使用记得实测一下：`motor_drv->stFault.WindBlockProtect.u32wind_block_rise_time` 没有做初始化是不是为0？
+- 4.CNT记录时间如何保证？ 
+    - a.来源于1ms定时中断任务实现.  
+    - b.怎么保证1ms足够跑完这些软件指令？：在程序入口和出口出设置IO翻转，挂示波器探头实测执行时间。
 
-```C
+
+
+
+
+
+```c
 /************************************************************************
  * Function   	: mcFault_WindBlock
  * Description	: mcFault_WindBlock
@@ -31,7 +38,6 @@ description: 电机控制故障检测与保护策略调试实录
  * Output 		: none
  * Return		: none
  ************************************************************************/
-
 void mcFault_WindBlock(UM_MOTOR *motor_drv)
 {
     if (motor_drv->stBldcCtrl.mc_sys_state == MC_RUN)
@@ -81,19 +87,14 @@ void mcFault_WindBlock(UM_MOTOR *motor_drv)
             {
                 motor_drv->stFault.WindBlockProtect.u32wind_block_rise_flag = FALSE;
             }
-            
         }
-        
-        
     }
     else
     {
         motor_drv->stFault.WindBlockProtect.u32wind_block_rise_flag = FALSE;
     }
-
 }
 ```
-
 
 ## 0x02 吸尘器应用场景启停可靠性调试
 
