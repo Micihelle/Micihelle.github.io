@@ -15,8 +15,17 @@ description: 电机控制故障检测与保护策略调试实录
 - [ ] 还有啥?
 
 
+## Motor Contorl WIKI
 
-## 0x01 吸尘器应用场景堵孔保护功能
+- 电机的换相互补发波工作原理
+- 驱动电路设计：配比选型理论分析
+- [Motors Motor Control Learning Map](https://motors.mit.edu/resources/motor_concept_map.pdf)  by [MIT Motor Lab](https://motors.mit.edu/) is licensed under a [CC BY-SA 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
+- https://docs.simplefoc.com/
+- 新品MOS测试：带电机死区时间测试、
+PROMPT ENGINEERING: https://lemontree.one/archives/346.html 
+
+
+## 0x01 BLDC-吸尘器应用场景堵孔保护功能
 关于本段代码的一些作用和问题：
 - 1.功率环模式，同样的板子运行在不同的工作电压范围，针对性地调整堵孔转速判定条件。
 - 2.堵孔状态判定条件、堵孔状态升功率持续时间
@@ -24,9 +33,6 @@ description: 电机控制故障检测与保护策略调试实录
 - 4.CNT记录时间如何保证？ 
     - a.来源于1ms定时中断任务实现.  
     - b.怎么保证1ms足够跑完这些软件指令？：在程序入口和出口出设置IO翻转，挂示波器探头实测执行时间。
-
-
-
 
 
 
@@ -96,18 +102,74 @@ void mcFault_WindBlock(UM_MOTOR *motor_drv)
 }
 ```
 
-## 0x02 吸尘器应用场景启停可靠性调试
+## 0x02 BLDC-吸尘器应用场景启停可靠性调试
 
-## 0x03 吸尘器应用场景
+## 0x03 BLDC-发波测试
+
+```c
+// ...
+            if (motor_ctrl->stBldcCtrl.u8control_loop_mode == TEST_LOOP)
+            {
+                if (motor_ctrl->stBldcCtrl.u32stage_count == 0)
+                {
+                    motor_ctrl->stBldcCtrl.u32stage_count= TEST_COM_PERIOD;
+                    motor_ctrl->stBldcCtrl.u32stage_count = motor_ctrl->stBldcCtrl.TestCtrl.u16test_period;
+                    motor_ctrl->stBldcCtrl.DutyCtrl.u16duty_out = (motor_ctrl->stBldcCtrl.TestCtrl.u16test_duty_out);
+                    bsp_PwmDutyOut(motor_ctrl->stBldcCtrl.DutyCtrl.u16duty_out);
+                    Motor_drv.Com.u8run_step++;
+                    if (Motor_drv.Com.u8run_step >= 7)
+                    {
+                        Motor_drv.Com.u8run_step = 1;
+                    }
+                    mc_Commutate[Motor_drv.Com.u8run_step]();
+                }
+            }
+
+
+//...
+```
+
+
+
+## 0x04 功率曲线模板
+
+```c
+// 示例代码（分段线性插值）
+uint8_t map_duty_cycle(uint8_t D_input) {
+    const uint8_t lut_in[] = {10, 30, 50, 70, 90, 100};
+    const uint8_t lut_out[] = {10, 28, 45, 65, 85, 100};
+    
+    for (int i=0; i<5; i++) {
+        if (D_input <= lut_in[i+1]) {
+            float slope = (lut_out[i+1] - lut_out[i]) / (float)(lut_in[i+1] - lut_in[i]);
+            return lut_out[i] + slope * (D_input - lut_in[i]);
+        }
+    }
+    return 100;
+}
+```
+
+
+## 0x05 采样电路
+- 母线电压采样：母线电压实测值、理论AD值、仿真AD值
+
 
 
 ## 0xFE
 ## 0xFF 杂七杂八的一些工作经验
 1.测试数据有效性衡量：数据变化是否符合规律，如果出现一些明显的变化能否做出合理的解释？（比如只是测试环境发生了变化）
 2.项目调试中的交流问题：？？？
+    - 芯片选型案例分析：比如用于除草机和用于吸尘器的芯片选型对比评估下来应该是不一样的（接触一个新产品之前你会先去了解什么？：功率参数、常用功能要求、）
+
 3.电机控制项目开发流程：？？？
+    - 技术端和业务端
     - 根据客户需求调试及常规功能复测，做好软件备份和版本管理(避免引入更多不确定性因素)->release
     - 封样收纳管理
+    - MOS管新品测试报告撰写要求。
+    - 新版测试和坏板维修硬件排查：电源供电 驱动供电 LDO处理后MCU供电；仿真单步执行观察软件运行状态。
+
+
+
 
 
 吸尘器产品实际调试经验
@@ -127,13 +189,15 @@ void mcFault_WindBlock(UM_MOTOR *motor_drv)
 一些学习工作心得：
 - 1.把自己学的东西整理好笔记（遇到了什么问题，进行了怎么样的尝试，最后问题是如何解决的；考虑过哪种设计？A设计与B设计相比的优势在于何处？是否都能达到xxx指标？整个程序是怎么跑起来的？软件是如何实现的？硬件部分是如何实现的？系统本身是如何设计的？中间变量状态迁移？信号是如何传递的？能把自己手头的工作相关的技术都钻研到位其实算基本要求。
 - 2.职业规划：1年、3年、5年的职业目标
+- 3.技术端和业务端
 
 
 一些奇奇怪怪现在也没有想清楚的问题：
 1.同一批制作的PCB板跑另外一批电机有时候会出现功率差异，同一批制作的PCB板跑同个电机也有出现过功率差异，如何看待这种功率一致性问题？
 2.经常在某些编程语言练习上花费了很多时间，实际上我更需要的是实际项目调试，缺啥练啥效率更快把。
 3.能不能理清楚开源芯片设计嵌入式开发 到家用电器芯片开发 控制版开发这一块的联系？：芯片架构→ ASIC/SOC → PCB板 → 嵌入式开发
-4.PCB设计中，两层板和四层板的区别：设计上和成本上
+4.PCB设计中，两层板和四层板的区别：设计上和成本上有什么区别？
+
 
 
 
@@ -141,6 +205,7 @@ void mcFault_WindBlock(UM_MOTOR *motor_drv)
 
 
 一些可以考虑实践的项目：
+- 操作系统内核裁剪移植目标板
 - MIT边缘计算项目
 - AI推理项目、多核异构计算异构编译项目
 - 我想有时间可以做一些AI结合生活场景的项目
