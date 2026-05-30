@@ -24,6 +24,16 @@ description: 电机控制故障检测与保护策略调试实录
 - 新品MOS测试：带电机死区时间测试、
 PROMPT ENGINEERING: https://lemontree.one/archives/346.html 
 
+### BLDC(Brushless Direct Motor)
+反电动势波形
+方波控制(六步换相)、弦波控制(FOC)
+
+
+
+### PMSM(Permanent Magnet Synchronous Motor)
+反电动势波形
+
+
 
 ## 0x01 BLDC-吸尘器应用场景堵孔保护功能
 关于本段代码的一些作用和问题：
@@ -152,6 +162,7 @@ uint8_t map_duty_cycle(uint8_t D_input) {
 
 ## 0x05 采样电路
 - 母线电压采样：母线电压实测值、理论AD值、仿真AD值
+    - 分压比调整：
 
 
 
